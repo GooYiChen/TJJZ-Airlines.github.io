@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>同济嘉中航空公司 - B站UP主主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #001a33 0%, #003366 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* 背景视频样式 */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
+        }
+
+        /* 导航栏样式 - Glassmorphism */
+        nav {
+            background: rgba(0, 26, 51, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 50px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 204, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .school-logo {
+            height: 50px;
+            width: auto;
+            border-radius: 50%;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+
+        .site-title {
+            color: #ffcc00;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav li {
+            margin: 0 20px;
+        }
+
+        nav a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 30px;
+        }
+
+        nav a:hover {
+            color: #001a33;
+            background: #ffcc00;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+        }
+
+        /* 主要内容区域 */
+        .main-content {
+            margin-top: 80px;
+            padding: 50px;
+            min-height: 100vh;
+        }
+
+        /* 首页 */
+        .hero-section {
+            text-align: center;
+            padding: 120px 20px;
+            background: rgba(0, 26, 51, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            margin: 30px auto;
+            max-width: 1200px;
+            border: 1px solid rgba(255, 204, 0, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-section h1 {
+            font-size: 4em;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.7);
+            letter-spacing: 1px;
+        }
+
+        .hero-section p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            color: #e6f2ff;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .featured-video {
+            margin: 60px auto;
+            max-width: 900px;
+            background: rgba(0, 26, 51, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .featured-video h2 {
+            color: #ffcc00;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+
+        .video-cover {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 204, 0, 0.3);
+        }
+
+        .video-cover img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 204, 0, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: rgba(255, 204, 0, 1);
+        }
+
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 25px solid #001a33;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            margin-left: 8px;
+        }
+
+        /* 互动版块 */
+        .interactive-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin: 70px auto;
+            max-width: 1200px;
+        }
+
+        .interactive-card {
+            background: rgba(0, 26, 51, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 204, 0, 0.4);
+            background: rgba(0, 26, 51, 0.7);
+        }
+
+        .interactive-card h3 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .interactive-card p {
+            color: #e6f2ff;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ffcc00 0%, #ffaa00 100%);
+            color: #001a33;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.5);
+            background: linear-gradient(135deg, #ffaa00 0%, #ffcc00 100%);
+        }
+
+        /* 关于我页面 */
+        .about-section {
+            max-width: 900px;
+            margin: 100px auto;
+            padding: 50px;
+            background: rgba(0, 26, 51, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .about-section h2 {
+            color: #ffcc00;
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+        }
+
+        .about-content {
+            line-height: 1.8;
+            font-size: 1.2em;
+        }
+
+        .about-content h3 {
+            color: #ffcc00;
+            margin: 30px 0 15px 0;
+            font-size: 1.6em;
+            border-bottom: 2px solid rgba(255, 204, 0, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .personal-info {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .personal-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffcc00;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
+        }
+
+        .info-text {
+            flex: 1;
+        }
+
+        .about-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 204, 0, 0.3);
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background: transparent;
+            color: #ffcc00;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: rgba(255, 204, 0, 0.2);
+            border-bottom: 3px solid #ffcc00;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 42, 77, 0.3);
+            border-radius: 0 10px 10px 10px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .equipment-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .equipment-list li {
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #e6f2ff;
+        }
+
+        .equipment-list li:before {
+            content: "✈";
+            position: absolute;
+            left: 0;
+            color: #ffcc00;
+        }
+
+        /* 飞行美图页面 */
+        .gallery-section {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 20px;
+        }
+
+        .gallery-section h2 {
+            color: #ffcc00;
+            font-size: 2.8em;
+            margin-bottom: 50px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+        }
+
+        .upload-area {
+            background: rgba(0, 26, 51, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            border: 2px dashed rgba(255, 204, 0, 0.5);
+        }
+
+        .upload-area p {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-item {
+            background: rgba(0, 26, 51, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .gallery-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* 视频展示页面 */
+        .video-gallery {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 20px;
+        }
+
+        .video-gallery h2 {
+            color: #ffcc00;
+            font-size: 2.8em;
+            margin-bottom: 50px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 40px;
+        }
+
+        .video-item {
+            background: rgba(0, 26, 51, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 204, 0, 0.4);
+        }
+
+        .video-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 2px solid rgba(255, 204, 0, 0.3);
+        }
+
+        .video-info {
+            padding: 25px;
+        }
+
+        .video-info h3 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .video-info p {
+            color: #e6f2ff;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        /* 联系我页面 */
+        .contact-section {
+            max-width: 700px;
+            margin: 100px auto;
+            padding: 50px;
+            background: rgba(0, 26, 51, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .contact-section h2 {
+            color: #ffcc00;
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            text-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            background: rgba(0, 42, 77, 0.6);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 204, 0, 0.2);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 204, 0, 0.4);
+            background: rgba(0, 42, 77, 0.7);
+        }
+
+        .contact-item a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-size: 1.4em;
+            font-weight: bold;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+
+        /* 隐藏其他页面 */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            nav {
+                padding: 10px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo-section {
+                justify-content: center;
+            }
+
+            .school-logo {
+                height: 40px;
+            }
+
+            .site-title {
+                font-size: 20px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav li {
+                margin: 5px 10px;
+            }
+
+            nav a {
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+
+            .hero-section h1 {
+                font-size: 2.8em;
+            }
+
+            .hero-section p {
+                font-size: 1.2em;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .interactive-sections {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .about-section, .contact-section {
+                padding: 30px;
+                margin: 60px auto;
+            }
+
+            .personal-info {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .personal-photo {
+                width: 150px;
+                height: 150px;
+            }
+
+            .video-grid, .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景视频 -->
+    <div class="background-container">
+        <video class="background-video" autoplay muted loop>
+            <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4   " type="video/mp4">
+        </video>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo-section">
+            <img src="images/同济嘉中校徽.png" alt="同济嘉中校徽" class="school-logo">
+            <span class="site-title">同济嘉中航空公司</span>
+        </div>
+        
+        <ul>
+            <li><a href="#" onclick="showPage('home')">首页</a></li>
+            <li><a href="#" onclick="showPage('about')">关于我</a></li>
+            <li><a href="#" onclick="showPage('gallery')">飞行美图</a></li>
+            <li><a href="#" onclick="showPage('videos')">视频作品</a></li>
+            <li><a href="#" onclick="showPage('contact')">联系我</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主要内容 -->
+    <div class="main-content">
+        <!-- 首页 -->
+        <div id="home" class="page active">
+            <div class="hero-section">
+                <h1>同济嘉中航空公司</h1>
+                <p>初中生UP主，带你体验飞行的魅力！</p>
+                
+                <div class="featured-video">
+                    <h2>🎉 代表作：国庆特别飞行 🎉</h2>
+                    <div class="video-cover" onclick="window.open('https://www.bilibili.com/video/BV17exjzsELc/   ', '_blank')">
+                        <img src="images/封面.png" alt="国庆特别飞行">
+                        <div class="play-button"></div>
+                    </div>
+                    <p style="margin-top: 20px; font-size: 1.2em;">
+                        初中生手搓陆空对话＆单人机组，TolissA321上海浦东-北京首都飞行
+                    </p>
+                    <a href="https://www.bilibili.com/video/BV17exjzsELc/   " target="_blank" class="btn">
+                        立即观看完整视频
+                    </a>
+                </div>
+            </div>
+
+            <!-- 互动版块 -->
+            <div class="interactive-sections">
+                <div class="interactive-card">
+                    <h3>📸 飞行美图分享</h3>
+                    <p>欣赏精彩的模拟飞行截图！</p>
+                    <button class="btn" onclick="showPage('gallery')">查看美图</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 关于我页面 -->
+        <div id="about" class="page">
+            <div class="about-section">
+                <h2>关于我</h2>
+                
+                <div class="about-content">
+                    <div class="personal-info">
+                        <img src="images/我.jpg" alt="个人照片" class="personal-photo">
+                        <div class="info-text">
+                            <h3>你好，我是顾奕陈！</h3>
+                            <p>
+                                一名热爱航空的初中生，通过模拟飞行体验驾驶飞机的乐趣。
+                                我的视频主要分享模拟飞行、陆空对话、民航降落等内容，
+                                希望能把这份对飞行的热爱传递给更多的人！
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="about-tabs">
+                        <button class="tab-button active" onclick="showTab('basic')">基本信息</button>
+                        <button class="tab-button" onclick="showTab('equipment')">设备配置</button>
+                        <button class="tab-button" onclick="showTab('experience')">模飞经历</button>
+                    </div>
+
+                    <div id="basic" class="tab-content active">
+                        <h3>个人简介</h3>
+                        <p>年龄：14岁</p>
+                        <p>学校：同济嘉中</p>
+                        <p>爱好：模拟飞行、航空知识、视频制作</p>
+                        <p>飞行时长：模拟飞行累计500+小时</p>
+                        <p>擅长机型：A320系列、B737系列</p>
+                    </div>
+
+                    <div id="equipment" class="tab-content">
+                        <h3>设备配置</h3>
+                        <ul class="equipment-list">
+                            <li>模拟飞行软件：X-Plane 11</li>
+                            <li>飞机插件：Toliss A321, Zibo 737-800</li>
+                            <li>操作系统：Windows 10</li>
+                            <li>CPU：Intel i5-10400</li>
+                            <li>显卡：Intel HD Graphics 520</li>
+                            <li>内存：8GB</li>
+                            <li>摇杆：TCA Sidestick Airbus Edition</li>
+                            <li>油门：TCA Quadrant Airbus Edition</li>
+                        </ul>
+                    </div>
+
+                    <div id="experience" class="tab-content">
+                        <h3>模飞经历</h3>
+                        <p>2021年开始接触模拟飞行</p>
+                        <p>2022-2024年刻苦钻研各类知识</p>
+                        <p>2025年在B站发布第一个飞行视频</p>
+                        <p>代表作品：《国庆特别飞行》</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>飞行美图</title>
+<style>
+/* ===== 缩略图网格 ===== */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;
+  padding:20px 0;
+}
+.gallery-item{
+  overflow:hidden;
+  border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  transition:transform .3s;
+}
+.gallery-item:hover{transform:translateY(-5px);}
+.gallery-item img{
+  width:100%;height:250px;object-fit:cover;display:block;
+}
+
+/* ===== 全屏放大 ===== */
+#lightbox{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:zoom-out;
+}
+#lightbox-img{
+  max-width:90vw;max-height:90vh;
+  box-shadow:0 0 20px rgba(0,0,0,.6);
+}
+
+/* ===== 秘籍提示（可选）=====
+   打开时页面中央显示一句暗语，输完自动消失 */
+#hint{
+  position:fixed;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  padding:10px 20px;
+  background:rgba(0,0,0,.5);
+  color:#fff;border-radius:4px;
+  font-size:14px;pointer-events:none;
+  transition:opacity .5s;
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== 飞行美图 开始 ===================== -->
+<div id="gallery" class="page">
+  <div class="gallery-section">
+    <h2>飞行美图</h2>
+
+    <!-- 缩略图网格 -->
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</div>
+
+<!-- 全屏放大层 -->
+<div id="lightbox">
+  <img id="lightbox-img" alt="">
+</div>
+
+<style>
+/* ---- 缩略图网格 ---- */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;
+  padding:20px 0;
+}
+.gallery-item{
+  overflow:hidden;
+  border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  transition:transform .3s;
+  cursor:pointer;
+}
+.gallery-item:hover{transform:translateY(-5px);}
+.gallery-item img{width:100%;height:250px;object-fit:cover;display:block;}
+
+/* ---- 全屏放大 ---- */
+#lightbox{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  cursor:zoom-out;
+}
+#lightbox-img{max-width:90vw;max-height:90vh;box-shadow:0 0 20px rgba(0,0,0,.6);}
+</style>
+
+<script>
+/* ========== 唯一需要改的地方：你的图片文件夹路径 ========== */
+const FOLDER_URL = 'images/gallery';   // 相对于本 html 的文件夹
+/* ========================================================= */
+
+const grid       = document.getElementById('galleryGrid');
+const lightbox   = document.getElementById('lightbox');
+const lightboxImg= document.getElementById('lightbox-img');
+
+/* 进入页面即自动加载 */
+document.addEventListener('DOMContentLoaded', () => {
+  loadGallery();
+});
+
+function loadGallery(){
+  /* 1. 先尝试读取文件夹下的 manifest.json（里面只需一行：["1.jpg","2.png"]） */
+  fetch(`${FOLDER_URL}/manifest.json`)
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(arr => render(arr))
+    .catch(() => {
+      /* 2. 没 json 就按固定 50 张顺序尝试 1.jpg … 50.jpg */
+      const arr = Array.from({length:360},(_,i)=>`${i+1}.jpg`);
+      render(arr);
+    });
+}
+
+function render(list){
+  list.forEach(name => {
+    const src = `${FOLDER_URL}/${name}`;
+    const item= document.createElement('div');
+    item.className = 'gallery-item';
+    item.innerHTML = `<img src="${src}" loading="lazy">`;
+    item.onclick   = () => showLightbox(src);
+    grid.appendChild(item);
+  });
+}
+
+function showLightbox(src){
+  lightboxImg.src = src;
+  lightbox.style.display = 'flex';
+}
+lightbox.onclick = () => lightbox.style.display = 'none';
+</script>
+
+        <!-- 视频作品页面 -->
+        <div id="videos" class="page">
+            <div class="video-gallery">
+                <h2>我的视频作品</h2>
+                
+                <div class="video-grid">
+                    <div class="video-item">
+                        <img src="images/封面.png" alt="国庆特别飞行">
+                        <div class="video-info">
+                            <h3>【初中生手搓】陆空对话＆单人机组 国庆特别飞行!</h3>
+                            <p>A321上海浦东-北京首都飞行，完整陆空对话</p>
+                            <a href="https://www.bilibili.com/video/BV17exjzsELc/   " target="_blank" class="btn">观看视频</a>
+                        </div>
+                    </div>
+
+                    <div class="video-item">
+                        <img src="https://via.placeholder.com/400x225/001a33/ffcc00?text=   夜间飞行挑战" alt="夜间飞行">
+                        <div class="video-info">
+                            <h3>夜间飞行挑战 - 北京大兴国际机场降落</h3>
+                            <p>挑战夜间复杂气象条件下的降落</p>
+                            <a href="#" class="btn">观看视频</a>
+                        </div>
+                    </div>
+
+                    <div class="video-item">
+                        <img src="https://via.placeholder.com/400x225/001a33/ffcc00?text=   飞行教学" alt="飞行教学">
+                        <div class="video-info">
+                            <h3>模拟飞行入门教学第一集</h3>
+                            <p>从零开始学习模拟飞行的基础知识</p>
+                            <a href="#" class="btn">观看视频</a>
+                        </div>
+                    </div>
+
+                    <div class="video-item">
+                        <img src="https://via.placeholder.com/400x225/001a33/ffcc00?text=   环球飞行1" alt="环球飞行">
+                        <div class="video-info">
+                            <h3>环球飞行挑战 EP1 - 从上海出发</h3>
+                            <p>开始我的模拟环球飞行之旅</p>
+                            <a href="#" class="btn">观看视频</a>
+                        </div>
+                    </div>
+
+                    <div class="video-item">
+                        <img src="https://via.placeholder.com/400x225/001a33/ffcc00?text=   机型评测" alt="机型评测">
+                        <div class="video-info">
+                            <h3>Toliss A321 详细评测</h3>
+                            <p>深度评测这款热门的空客插件</p>
+                            <a href="#" class="btn">观看视频</a>
+                        </div>
+                    </div>
+
+                    <div class="video-item">
+                        <img src="https://via.placeholder.com/400x225/001a33/ffcc00?text=   航线介绍" alt="航线介绍">
+                        <div class="video-info">
+                            <h3>上海浦东-北京首都航线飞行</h3>
+                            <p>国内最繁忙的航线之一飞行体验</p>
+                            <a href="#" class="btn">观看视频</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系我页面 -->
+        <div id="contact" class="page">
+            <div class="contact-section">
+                <h2>联系我</h2>
+                <p>欢迎与我交流飞行相关的话题！</p>
+                
+                <div class="contact-links">
+                    <div class="contact-item">
+                        <h3>B站主页</h3>
+                        <a href="https://space.bilibili.com/1859869557?spm_id_from=333.1369.0.0   " target="_blank">
+                            点击访问我的B站主页
+                        </a>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <h3>钉钉账号</h3>
+                        <a href="https://www.dingtalk.com/   " target="_blank">
+                            1qh-26gprkd88t
+                        </a>
+                    </div>
+
+                    <div class="contact-item">
+                        <h3>邮箱</h3>
+                        <a href="mailto:guyichen201936@126.com">
+                            guyichen201936@126.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面切换功能
+        function showPage(pageId) {
+            // 隐藏所有页面
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示选中的页面
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+        }
+
+        // 标签页切换功能
+        function showTab(tabId) {
+            // 隐藏所有标签内容
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // 移除所有按钮的激活状态
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 显示选中的标签内容
+            document.getElementById(tabId).classList.add('active');
+            
+            // 激活对应的按钮
+            event.target.classList.add('active');
+        }
+
+        // 平滑滚动效果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 添加滚动时的导航栏效果
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.backgroundColor = 'rgba(0, 26, 51, 0.95)';
+            } else {
+                nav.style.backgroundColor = 'rgba(0, 26, 51, 0.9)';
+            }
+        });
+
+        // 添加页面加载动画
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.8s ease-in-out';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>&copy; <span id="year"></span> 同济嘉中航空公司. All rights reserved.</p>
+    <p>本站由顾奕陈自主设计开发 | 邮箱：<a href="mailto:guyichen201936@126.com">guyichen201936@126.com</a></p>
+  </div>
+</footer>
+
+<!-- 补充样式 -->
+<style>
+.site-footer{
+  margin-top:80px;
+  padding:30px 20px 40px;
+  background:rgba(0,26,51,.85);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-top:1px solid rgba(255,204,0,.25);
+  text-align:center;
+  color:#e6f2ff;
+  font-size:14px;
+  line-height:1.8;
+}
+.footer-inner p{margin:6px 0;}
+.footer-inner a{color:#ffcc00;text-decoration:none;}
+.footer-inner a:hover{text-decoration:underline;}
+@media(max-width:768px){
+  .site-footer{padding:20px 15px 30px;font-size:13px;}
+}
+</style>
+
+<!-- 自动更新年份 -->
+<script>
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
